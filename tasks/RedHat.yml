@@ -1,0 +1,15 @@
+- name: install logstash
+  yum:
+    name: "https://artifacts.elastic.co/downloads/logstash/logstash-{{ LOGSTASH_VERSION }}.rpm"
+    state: present
+- name: Copy logstash config file
+  template:
+    src: pipeline.conf.j2
+    dest: /etc/logstash/conf.d/pipeline.conf
+  notify: restart logstash
+
+- name: Start logstash
+  service:
+    name: logstash
+    state: started
+    enabled: true

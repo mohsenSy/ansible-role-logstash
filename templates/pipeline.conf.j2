@@ -1,0 +1,23 @@
+#jinja2:lstrip_blocks: True
+input {
+  {% for input in LOGSTASH_INPUTS %}
+    {{ input.name }} {
+      {% if input.options is defined %}
+        {% for option in input.options %}
+          {{ option.name }} => {{ option.value }}
+        {% endfor %}
+      {% endif %}
+    }
+  {% endfor %}
+}
+output {
+  {% for output in LOGSTASH_OUTPUTS %}
+    {{ output.name }} {
+      {% if output.options is defined %}
+        {% for option in output.options %}
+          {{ option.name }} => {{ option.value }}
+        {% endfor %}
+      {% endif %}
+    }
+  {% endfor %}
+}
