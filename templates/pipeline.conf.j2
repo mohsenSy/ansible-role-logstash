@@ -16,6 +16,27 @@ input {
     {% endif %}
   {% endfor %}
 }
+
+{% if LOGSTASH_FILTERS is defined %}
+filter {
+  {% for filter in LOGSTASH_FILTERS %}
+  {% if filter.if is defined %}
+  if {{ filter.if }} {
+  {% endif %}
+  {{ filter.name }} {
+    {% if filter.options is defined %}
+      {% for option in filter.options %}
+        {{ option.name }} => {{ option.value }}
+      {% endfor %}
+    {% endif %}
+  }
+  {% if filter.if is defined %}
+  }
+  {% endif %}
+  {% endfor %}
+}
+{% endif %}
+
 output {
   {% for output in LOGSTASH_OUTPUTS %}
     {% if output.if is defined %}
