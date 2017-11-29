@@ -5,3 +5,6 @@ LOGSTASH_INPUTS:
   - name: stdin
 LOGSTASH_OUTPUTS:
   - name: stdout
+    options:
+      - name: codec
+        value: rubydebug
